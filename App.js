@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Button, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 
 import Login from "./screens/login";
@@ -61,6 +62,10 @@ export default function App() {
         <Button
           title="Open Upload case screen"
           onPress={() => setCurrentScreen("uploadCaseScreen")}
+        />
+        <Button
+          title="Spelregels"
+          onPress={() => setCurrentScreen("HowToPlayScreen")}
         />
       </View>
     </SafeAreaView>
