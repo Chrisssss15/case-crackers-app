@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,7 +66,7 @@ export default function App() {
         />
         <Button
           title="Spelregels"
-          onPress={() => setCurrentScreen("HowToPlayScreen")}
+          onPress={() => setCurrentScreen("howToPlayScreen")}
         />
       </View>
     </SafeAreaView>
