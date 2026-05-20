@@ -15,13 +15,14 @@ import {
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
-export default function TeamsScreen({ setCurrentScreen }) {
+// export default function TeamsScreen({ setCurrentScreen }) {
+export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
   const avatars = ["🐸", "🐻", "🐱", "🐷"];
 
   const [teams, setTeams] = useState([
     {
       id: 1,
-      name: "Frog",
+      name: "",
       avatar: "🐸",
     },
     {
@@ -94,12 +95,40 @@ export default function TeamsScreen({ setCurrentScreen }) {
     setTeams(newTeams);
   };
 
-  const goNext = () => {
-    console.log("Teams:", teams);
+  //   const goNext = () => {
+  //   const teamsForGame = teams.map((team, index) => ({
+  //     ...team,
+  //     name: team.name.trim() === "" ? `Team ${index + 1}` : team.name,
+  //     lives: 3,
+  //     buttonColor: index % 2 === 0 ? "#FD9B34" : "#F242DE",
+  //   }));
 
-    // Hier kun je later naar het spel scherm gaan
-    // setCurrentScreen("gameScreen");
-  };
+  //   setGameTeams(teamsForGame);
+  //   setCurrentScreen("chooseCaseScreen");
+
+  //   console.log("Teams opgeslagen:", teamsForGame);
+  // };
+
+const goNext = () => {
+  const hasEmptyTeamName = teams.some((team) => team.name.trim() === "");
+
+  if (hasEmptyTeamName) {
+    alert("Vul voor elk team een naam in.");
+    return;
+  }
+
+  const teamsForGame = teams.map((team, index) => ({
+    ...team,
+    name: team.name.trim(),
+    lives: 3,
+    buttonColor: index % 2 === 0 ? "#FD9B34" : "#F242DE",
+  }));
+
+  setGameTeams(teamsForGame);
+  setCurrentScreen("chooseCaseScreen");
+
+  console.log("Teams opgeslagen:", teamsForGame);
+};
 
   return (
     <KeyboardAvoidingView
