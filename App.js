@@ -8,6 +8,14 @@ import Login from "./screens/login";
 import Homescreen from "./screens/homescreen";
 import UploadCaseScreen from "./screens/uploadCaseScreen";
 import HowToPlayScreen from "./screens/howToPlayScreen";
+import TeamsScreen from "./screens/teamsScreen";
+import ChooseScreen from "./screens/chooseCaseScreen";
+import GameScreen from "./screens/gameScreen";
+import GuessAnswerScreen from "./screens/guessAnswerScreen";
+import GoodAnswerScreen from "./screens/goodAnswerScreen";
+import ReflectionScreen from "./screens/reflectionScreen";
+
+
 
 
 export default function App() {
@@ -39,6 +47,31 @@ export default function App() {
 
   if (currentScreen === "howToPlayScreen") {
   return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "teamScreen") {
+  return <TeamsScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "chooseTeamScreen") {
+  return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "gameScreen") {
+  return <GameScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "guessAnswerScreen") {
+  return <GuessAnswerScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "goodAnswerScreen") {
+  return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "reflectionScreen") {
+  return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
+  
 }
 
   return (
@@ -67,6 +100,30 @@ export default function App() {
         <Button
           title="Spelregels"
           onPress={() => setCurrentScreen("howToPlayScreen")}
+        />
+        <Button
+          title="Teams maken"
+          onPress={() => setCurrentScreen("teamScreen")}
+        />
+        <Button
+          title="Case kiezen"
+          onPress={() => setCurrentScreen("chooseTeamScreen")}
+        />
+        <Button
+          title="Game screen"
+          onPress={() => setCurrentScreen("gameScreen")}
+        />
+        <Button
+          title="Guess Answer screen"
+          onPress={() => setCurrentScreen("guessAnswerScreen")}
+        />
+        <Button
+          title="Good Answer screen"
+          onPress={() => setCurrentScreen("goodAnswerScreen")}
+        />
+        <Button
+          title="Reflection screen"
+          onPress={() => setCurrentScreen("reflectionScreen")}
         />
       </View>
     </SafeAreaView>
