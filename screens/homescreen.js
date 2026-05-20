@@ -14,7 +14,8 @@ import Background from "../assets/background.svg";
 
 export default function Homescreen({ setCurrentScreen }) {
   const startGame = () => {
-    console.log("Start het spel");
+    setCurrentScreen("teamsScreen");
+    console.log("Naar teams aanmaken scherm");
   };
 
   const openHowItWorks = () => {
