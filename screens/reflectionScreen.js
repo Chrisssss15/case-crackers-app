@@ -13,6 +13,7 @@ import {
 
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
+import VraagtekenSlide from "../assets/vraagteken-slide.svg";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -49,7 +50,7 @@ export default function ReflectionScreen({ setCurrentScreen }) {
   ];
 
   const goBack = () => {
-    setCurrentScreen("goodJobScreen");
+    setCurrentScreen("goodAnswerScreen");
     console.log("Terug naar goed gedaan scherm");
   };
 
@@ -99,9 +100,7 @@ export default function ReflectionScreen({ setCurrentScreen }) {
                   resizeMode="contain"
                 />
               ) : (
-                <View style={styles.questionBox}>
-                  <Text style={styles.questionMark}>?</Text>
-                </View>
+                <VraagtekenSlide style={styles.questionSvg} />
               )}
             </View>
 
@@ -110,32 +109,30 @@ export default function ReflectionScreen({ setCurrentScreen }) {
               <Text style={styles.description}>{slide.text}</Text>
             </View>
 
-            <View style={styles.bottomContent}>
-              <View style={styles.dots}>
-                {slides.map((item, dotIndex) => (
-                  <View
-                    key={dotIndex}
-                    style={[
-                      styles.dot,
-                      currentSlide === dotIndex && styles.activeDot,
-                    ]}
-                  />
-                ))}
-              </View>
-
-              {index === slides.length - 1 && (
-                <TouchableOpacity
-                  style={styles.startButton}
-                  onPress={goStart}
-                  activeOpacity={0.85}
-                >
-                  <Text style={styles.startButtonText}>Terug naar start</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+            {index === slides.length - 1 && (
+              <TouchableOpacity
+                style={styles.startButton}
+                onPress={goStart}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.startButtonText}>Terug naar start</Text>
+              </TouchableOpacity>
+            )}
           </View>
         ))}
       </ScrollView>
+
+      <View style={styles.fixedDots}>
+        {slides.map((item, dotIndex) => (
+          <View
+            key={dotIndex}
+            style={[
+              styles.dot,
+              currentSlide === dotIndex && styles.activeDot,
+            ]}
+          />
+        ))}
+      </View>
     </View>
   );
 }
@@ -187,25 +184,15 @@ const styles = StyleSheet.create({
   },
 
   slideImage: {
-    width: 255,
-    height: 190,
+    width: 281,
+    height: 259,
   },
 
-  questionBox: {
-    width: 255,
-    height: 190,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  questionMark: {
-    fontFamily: "LondrinaSolid",
-    color: "#FD9B34",
-    fontSize: 125,
-    lineHeight: 130,
-    textShadowColor: "#FFD36F",
-    textShadowOffset: { width: 4, height: 4 },
-    textShadowRadius: 0,
+  questionSvg: {
+    width: 150,
+    height: 150,
+    marginTop: 35,
+    marginBottom: 74,
   },
 
   textContent: {
@@ -216,33 +203,31 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "LondrinaSolid",
     color: "#FFFFFF",
-    fontSize: 43,
-    lineHeight: 48,
+    fontSize: 56,
+    lineHeight: 72,
     textAlign: "center",
     marginBottom: 18,
+    paddingTop: 10,
   },
 
   description: {
     fontFamily: "LondrinaSolid",
     color: "#FFFFFF",
-    fontSize: 15,
-    lineHeight: 18,
+    fontSize: 18,
+    lineHeight: 22,
     textAlign: "center",
   },
 
-  bottomContent: {
+  fixedDots: {
     position: "absolute",
-    bottom: 36,
-    left: 28,
-    right: 28,
-    alignItems: "center",
-  },
-
-  dots: {
+    bottom: 175,
+    left: 0,
+    right: 0,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     gap: 10,
-    marginBottom: 22,
+    zIndex: 20,
   },
 
   dot: {
@@ -258,8 +243,11 @@ const styles = StyleSheet.create({
   },
 
   startButton: {
+    position: "absolute",
+    bottom: 85,
+    left: 28,
+    right: 28,
     backgroundColor: "#FD9B34",
-    width: "100%",
     height: 51,
     borderRadius: 10,
     alignItems: "center",
