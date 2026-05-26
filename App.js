@@ -20,6 +20,8 @@ import ReflectionScreen from "./screens/reflectionScreen";
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState("default");
+  const [gameTeams, setGameTeams] = useState([]);
+  const [selectedTeam, setSelectedTeam] = useState(null);
 
   const [fontsLoaded] = useFonts({
     LondrinaSolid: require("./assets/fonts/font.ttf"),
@@ -46,31 +48,68 @@ export default function App() {
   }
 
   if (currentScreen === "howToPlayScreen") {
-  return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
+    return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  if (currentScreen === "teamScreen") {
-  return <TeamsScreen setCurrentScreen={setCurrentScreen} />;
+  // if (currentScreen === "teamsScreen") {
+  //   return <TeamsScreen setCurrentScreen={setCurrentScreen} />;
+  // }
+
+  if (currentScreen === "teamsScreen") {
+  return (
+    <TeamsScreen
+      setCurrentScreen={setCurrentScreen}
+      setGameTeams={setGameTeams}
+    />
+  );
+}
+
+  if (currentScreen === "chooseCaseScreen") {
+    return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  if (currentScreen === "chooseTeamScreen") {
-  return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
-  }
+  // if (currentScreen === "gameScreen") {
+  //   return <GameScreen setCurrentScreen={setCurrentScreen} />;
+  // }
 
-  if (currentScreen === "gameScreen") {
-  return <GameScreen setCurrentScreen={setCurrentScreen} />;
-  }
+//   if (currentScreen === "gameScreen") {
+//   return (
+//     <GameScreen
+//       setCurrentScreen={setCurrentScreen}
+//       teams={gameTeams}
+//     />
+//   );
+// }
 
-  if (currentScreen === "guessAnswerScreen") {
-  return <GuessAnswerScreen setCurrentScreen={setCurrentScreen} />;
-  }
+if (currentScreen === "gameScreen") {
+  return (
+    <GameScreen
+      setCurrentScreen={setCurrentScreen}
+      teams={gameTeams}
+      setSelectedTeam={setSelectedTeam}
+    />
+  );
+}
+
+  // if (currentScreen === "guessAnswerScreen") {
+  //   return <GuessAnswerScreen setCurrentScreen={setCurrentScreen} />;
+  // }
+
+if (currentScreen === "guessAnswerScreen") {
+  return (
+    <GuessAnswerScreen
+      setCurrentScreen={setCurrentScreen}
+      team={selectedTeam}
+    />
+  );
+}
 
   if (currentScreen === "goodAnswerScreen") {
-  return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
+    return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
   }
 
   if (currentScreen === "reflectionScreen") {
-  return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
+    return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
   
 }
 
