@@ -12,30 +12,40 @@ import {
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
-export default function GameScreen({ setCurrentScreen }) {
-  const teams = [
-    {
-      id: 1,
-      name: "Team 1",
-      avatar: "🐸",
-      lives: 2,
-      buttonColor: "#FD9B34",
-    },
-    {
-      id: 2,
-      name: "Team 2",
-      avatar: "🐷",
-      lives: 3,
-      buttonColor: "#F242DE",
-    },
-  ];
+export default function GameScreen({ setCurrentScreen, teams, setSelectedTeam }) {
+  const gameTeams =
+  teams && teams.length > 0
+    ? teams
+    : [
+        {
+          id: 1,
+          name: "Team 1",
+          avatar: "🐸",
+          lives: 3,
+          buttonColor: "#FD9B34",
+        },
+        {
+          id: 2,
+          name: "Team 2",
+          avatar: "🐷",
+          lives: 3,
+          buttonColor: "#F242DE",
+        },
+      ];
 
   const goBack = () => {
     setCurrentScreen("chooseCaseScreen");
     console.log("Terug naar case kiezen");
   };
 
+  // const guessAnswer = (team) => {
+  //   setCurrentScreen("guessAnswerScreen");
+  //   console.log(team.name + " gaat antwoord raden");
+  // };
+
   const guessAnswer = (team) => {
+    setSelectedTeam(team);
+    setCurrentScreen("guessAnswerScreen");
     console.log(team.name + " gaat antwoord raden");
   };
 
@@ -63,8 +73,8 @@ export default function GameScreen({ setCurrentScreen }) {
         <CaseCrackersLogo style={styles.logo} />
 
         <View style={styles.teamsContainer}>
-          {teams.map((team) => (
-            <TeamTurnBlock
+            {gameTeams.map((team) => (
+              <TeamTurnBlock
               key={team.id}
               team={team}
               onGuess={() => guessAnswer(team)}
@@ -206,40 +216,40 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
 
-  heartsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 26,
-    marginBottom: 34,
-  },
+heartsRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 18,
+  marginBottom: 28,
+},
 
-  heart: {
-    fontFamily: "LondrinaSolid",
-    color: "#FF1308",
-    fontSize: 72,
-    lineHeight: 76,
-  },
+heart: {
+  fontFamily: "LondrinaSolid",
+  color: "#FF1308",
+  fontSize: 56,
+  lineHeight: 60,
+},
 
   emptyHeart: {
     color: "#74004E",
   },
 
-  guessButton: {
-    width: "100%",
-    height: 68,
-    borderRadius: 17,
-    alignItems: "center",
-    justifyContent: "center",
-  },
+guessButton: {
+  width: "92%",
+  height: 56,
+  borderRadius: 15,
+  alignItems: "center",
+  justifyContent: "center",
+},
 
-  guessButtonText: {
-    fontFamily: "LondrinaSolid",
-    color: "#FFFFFF",
-    fontSize: 34,
-    lineHeight: 40,
-    textAlign: "center",
-  },
+guessButtonText: {
+  fontFamily: "LondrinaSolid",
+  color: "#FFFFFF",
+  fontSize: 34,
+  lineHeight: 40,
+  textAlign: "center",
+},
 
   hintButton: {
     width: "100%",
