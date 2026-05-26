@@ -13,10 +13,8 @@ import ChooseScreen from "./screens/chooseCaseScreen";
 import GameScreen from "./screens/gameScreen";
 import GuessAnswerScreen from "./screens/guessAnswerScreen";
 import GoodAnswerScreen from "./screens/goodAnswerScreen";
+import WrongAnswerScreen from "./screens/wrongAnswerScreen";
 import ReflectionScreen from "./screens/reflectionScreen";
-
-
-
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState("default");
@@ -31,9 +29,26 @@ export default function App() {
     return null;
   }
 
-  // if (currentScreen === "login") {
-  //   return <Login />;
-  // }
+  const updateTeamLives = (teamId, newLives) => {
+    setGameTeams((oldTeams) =>
+      oldTeams.map((team) =>
+        team.id === teamId ? { ...team, lives: newLives } : team
+      )
+    );
+
+    setSelectedTeam((oldTeam) => {
+      if (!oldTeam || oldTeam.id !== teamId) {
+        return oldTeam;
+      }
+
+      return {
+        ...oldTeam,
+        lives: newLives,
+      };
+    });
+
+    console.log("Team levens aangepast:", teamId, newLives);
+  };
 
   if (currentScreen === "login") {
     return <Login setCurrentScreen={setCurrentScreen} />;
@@ -51,58 +66,47 @@ export default function App() {
     return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  // if (currentScreen === "teamsScreen") {
-  //   return <TeamsScreen setCurrentScreen={setCurrentScreen} />;
-  // }
-
   if (currentScreen === "teamsScreen") {
-  return (
-    <TeamsScreen
-      setCurrentScreen={setCurrentScreen}
-      setGameTeams={setGameTeams}
-    />
-  );
-}
+    return (
+      <TeamsScreen
+        setCurrentScreen={setCurrentScreen}
+        setGameTeams={setGameTeams}
+      />
+    );
+  }
 
   if (currentScreen === "chooseCaseScreen") {
     return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  // if (currentScreen === "gameScreen") {
-  //   return <GameScreen setCurrentScreen={setCurrentScreen} />;
-  // }
+  if (currentScreen === "gameScreen") {
+    return (
+      <GameScreen
+        setCurrentScreen={setCurrentScreen}
+        teams={gameTeams}
+        setSelectedTeam={setSelectedTeam}
+      />
+    );
+  }
 
-//   if (currentScreen === "gameScreen") {
-//   return (
-//     <GameScreen
-//       setCurrentScreen={setCurrentScreen}
-//       teams={gameTeams}
-//     />
-//   );
-// }
+  if (currentScreen === "guessAnswerScreen") {
+    return (
+      <GuessAnswerScreen
+        setCurrentScreen={setCurrentScreen}
+        team={selectedTeam}
+        updateTeamLives={updateTeamLives}
+      />
+    );
+  }
 
-if (currentScreen === "gameScreen") {
-  return (
-    <GameScreen
-      setCurrentScreen={setCurrentScreen}
-      teams={gameTeams}
-      setSelectedTeam={setSelectedTeam}
-    />
-  );
-}
-
-  // if (currentScreen === "guessAnswerScreen") {
-  //   return <GuessAnswerScreen setCurrentScreen={setCurrentScreen} />;
-  // }
-
-if (currentScreen === "guessAnswerScreen") {
-  return (
-    <GuessAnswerScreen
-      setCurrentScreen={setCurrentScreen}
-      team={selectedTeam}
-    />
-  );
-}
+  if (currentScreen === "wrongAnswerScreen") {
+    return (
+      <WrongAnswerScreen
+        setCurrentScreen={setCurrentScreen}
+        team={selectedTeam}
+      />
+    );
+  }
 
   if (currentScreen === "goodAnswerScreen") {
     return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
@@ -110,8 +114,7 @@ if (currentScreen === "guessAnswerScreen") {
 
   if (currentScreen === "reflectionScreen") {
     return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
-  
-}
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -132,37 +135,50 @@ if (currentScreen === "guessAnswerScreen") {
           title="Open homescreen"
           onPress={() => setCurrentScreen("homescreen")}
         />
+
         <Button
           title="Open Upload case screen"
           onPress={() => setCurrentScreen("uploadCaseScreen")}
         />
+
         <Button
           title="Spelregels"
           onPress={() => setCurrentScreen("howToPlayScreen")}
         />
+
         <Button
           title="Teams maken"
-          onPress={() => setCurrentScreen("teamScreen")}
+          onPress={() => setCurrentScreen("teamsScreen")}
         />
+
         <Button
           title="Case kiezen"
-          onPress={() => setCurrentScreen("chooseTeamScreen")}
+          onPress={() => setCurrentScreen("chooseCaseScreen")}
         />
+
         <Button
           title="Game screen"
           onPress={() => setCurrentScreen("gameScreen")}
         />
+
         <Button
           title="Guess Answer screen"
           onPress={() => setCurrentScreen("guessAnswerScreen")}
         />
+
         <Button
           title="Good Answer screen"
           onPress={() => setCurrentScreen("goodAnswerScreen")}
         />
+
         <Button
           title="Reflection screen"
           onPress={() => setCurrentScreen("reflectionScreen")}
+        />
+
+        <Button
+          title="Wrong Answer screen"
+          onPress={() => setCurrentScreen("wrongAnswerScreen")}
         />
       </View>
     </SafeAreaView>
@@ -190,7 +206,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    // fontFamily: "LondrinaSolid",
     fontSize: 18,
     textAlign: "center",
     color: "#000000",
