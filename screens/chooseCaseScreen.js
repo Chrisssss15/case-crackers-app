@@ -1,61 +1,78 @@
 // @ts-nocheck
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
- 	Text,
+  Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
+import { getCases } from "../services/api";
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
 export default function ChooseCaseScreen({ setCurrentScreen }) {
   const [searchText, setSearchText] = useState("");
   const [selectedCase, setSelectedCase] = useState(null);
+  const [cases, setCases] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const cases = [
-    { id: 1, victim: "RAYA" },
-    { id: 2, victim: "JASMINE" },
-    { id: 3, victim: "MILA" },
-    { id: 4, victim: "NOAH" },
-  ];
+  useEffect(() => {
+    async function loadCases() {
+      try {
+        const backendCases = await getCases();
+        setCases(backendCases);
+      } catch (error) {
+        console.log("Fout bij ophalen case:", error);
+        alert(error.message || "Kon de case niet ophalen.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadCases();
+  }, []);
 
   const goBack = () => {
     setCurrentScreen("teamsScreen");
     console.log("Terug naar teams screen");
   };
 
-  // const openCase = (selectedCase) => {
-  //   setSelectedCase(caseItem);
-  //   // console.log("Gekozen case:", selectedCase.victim);
-  //   console.log("Gekozen case:", caseItem.victim);
-
-
-  //   // Hier kun je later naar het volgende scherm gaan
-  //   // setCurrentScreen("caseDetailScreen");
-  // };
-
   const openCase = (caseItem) => {
-  setSelectedCase(caseItem);
-  console.log("Gekozen case:", caseItem.victim);
-};
+    setSelectedCase(caseItem);
+    console.log("Gekozen case:", caseItem.victim);
+    console.log("Case titel:", caseItem.title);
+    console.log("Case beschrijving:", caseItem.description);
+  };
 
   const goNext = () => {
-  if (!selectedCase) {
-    alert("Kies eerst een case.");
-    return;
-  }
+    if (!selectedCase) {
+      alert("Kies eerst een case.");
+      return;
+    }
 
-  setCurrentScreen("gameScreen");
-};
+    setCurrentScreen("gameScreen");
+  };
 
   const filteredCases = cases.filter((item) =>
     item.victim.toLowerCase().includes(searchText.toLowerCase())
   );
+
+  if (loading) {
+    return (
+      <View style={styles.page}>
+        <Background style={styles.background} />
+
+        <View style={styles.content}>
+          <CaseCrackersLogo style={styles.logo} />
+          <Text style={styles.title}>Cases laden...</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <ScrollView
@@ -90,35 +107,39 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
 
         <Text style={styles.otherCasesTitle}>Andere cases</Text>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.cardsRow}
-        >
-          {filteredCases.map((item) => (
-            <CaseCard
-              key={item.id}
-              victim={item.victim}
-              isSelected={selectedCase?.id === item.id}
-              onPress={() => openCase(item)}
-            />
-          ))}
-        </ScrollView>
+        {filteredCases.length === 0 ? (
+          <Text style={styles.noCasesText}>Geen cases gevonden.</Text>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.cardsRow}
+          >
+            {filteredCases.map((item) => (
+              <CaseCard
+                key={item.id}
+                victim={item.victim}
+                isSelected={selectedCase?.id === item.id}
+                onPress={() => openCase(item)}
+              />
+            ))}
+          </ScrollView>
+        )}
+
         <TouchableOpacity
-  style={styles.nextButton}
-  onPress={goNext}
-  activeOpacity={0.85}
->
-  <Text style={styles.nextButtonText}>Ga verder</Text>
-</TouchableOpacity>
+          style={styles.nextButton}
+          onPress={goNext}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.nextButtonText}>Ga verder</Text>
+        </TouchableOpacity>
       </View>
     </ScrollView>
-    
   );
 }
 
 function CaseCard({ victim, onPress, isSelected }) {
-    return (
+  return (
     <TouchableOpacity
       style={[styles.caseCard, isSelected && styles.selectedCaseCard]}
       onPress={onPress}
@@ -225,6 +246,15 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 34,
     lineHeight: 40,
+    textAlign: "center",
+    marginBottom: 40,
+  },
+
+  noCasesText: {
+    fontFamily: "LondrinaSolid",
+    color: "#FFFFFF",
+    fontSize: 24,
+    lineHeight: 30,
     textAlign: "center",
     marginBottom: 40,
   },
@@ -336,26 +366,25 @@ const styles = StyleSheet.create({
   },
 
   selectedCaseCard: {
-  borderColor: "#FFFFFF",
-  borderWidth: 6,
-},
+    borderColor: "#FFFFFF",
+    borderWidth: 6,
+  },
 
-nextButton: {
-  width: "100%",
-  height: 68,
-  backgroundColor: "#FD9B34",
-  borderRadius: 17,
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: 45,
-},
+  nextButton: {
+    width: "100%",
+    height: 68,
+    backgroundColor: "#FD9B34",
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 45,
+  },
 
-nextButtonText: {
-  fontFamily: "LondrinaSolid",
-  color: "#FFFFFF",
-  fontSize: 34,
-  lineHeight: 40,
-  textAlign: "center",
-},
+  nextButtonText: {
+    fontFamily: "LondrinaSolid",
+    color: "#FFFFFF",
+    fontSize: 34,
+    lineHeight: 40,
+    textAlign: "center",
+  },
 });
-
