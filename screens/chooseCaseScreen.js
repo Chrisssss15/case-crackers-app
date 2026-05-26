@@ -15,6 +15,7 @@ import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
 export default function ChooseCaseScreen({ setCurrentScreen }) {
   const [searchText, setSearchText] = useState("");
+  const [selectedCase, setSelectedCase] = useState(null);
 
   const cases = [
     { id: 1, victim: "RAYA" },
@@ -28,12 +29,29 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
     console.log("Terug naar teams screen");
   };
 
-  const openCase = (selectedCase) => {
-    console.log("Gekozen case:", selectedCase.victim);
+  // const openCase = (selectedCase) => {
+  //   setSelectedCase(caseItem);
+  //   // console.log("Gekozen case:", selectedCase.victim);
+  //   console.log("Gekozen case:", caseItem.victim);
 
-    // Hier kun je later naar het volgende scherm gaan
-    // setCurrentScreen("caseDetailScreen");
-  };
+
+  //   // Hier kun je later naar het volgende scherm gaan
+  //   // setCurrentScreen("caseDetailScreen");
+  // };
+
+  const openCase = (caseItem) => {
+  setSelectedCase(caseItem);
+  console.log("Gekozen case:", caseItem.victim);
+};
+
+  const goNext = () => {
+  if (!selectedCase) {
+    alert("Kies eerst een case.");
+    return;
+  }
+
+  setCurrentScreen("gameScreen");
+};
 
   const filteredCases = cases.filter((item) =>
     item.victim.toLowerCase().includes(searchText.toLowerCase())
@@ -81,19 +99,28 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
             <CaseCard
               key={item.id}
               victim={item.victim}
+              isSelected={selectedCase?.id === item.id}
               onPress={() => openCase(item)}
             />
           ))}
         </ScrollView>
+        <TouchableOpacity
+  style={styles.nextButton}
+  onPress={goNext}
+  activeOpacity={0.85}
+>
+  <Text style={styles.nextButtonText}>Ga verder</Text>
+</TouchableOpacity>
       </View>
     </ScrollView>
+    
   );
 }
 
-function CaseCard({ victim, onPress }) {
-  return (
+function CaseCard({ victim, onPress, isSelected }) {
+    return (
     <TouchableOpacity
-      style={styles.caseCard}
+      style={[styles.caseCard, isSelected && styles.selectedCaseCard]}
       onPress={onPress}
       activeOpacity={0.85}
     >
@@ -307,4 +334,28 @@ const styles = StyleSheet.create({
     textAlign: "center",
     transform: [{ rotate: "-8deg" }],
   },
+
+  selectedCaseCard: {
+  borderColor: "#FFFFFF",
+  borderWidth: 6,
+},
+
+nextButton: {
+  width: "100%",
+  height: 68,
+  backgroundColor: "#FD9B34",
+  borderRadius: 17,
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: 45,
+},
+
+nextButtonText: {
+  fontFamily: "LondrinaSolid",
+  color: "#FFFFFF",
+  fontSize: 34,
+  lineHeight: 40,
+  textAlign: "center",
+},
 });
+
