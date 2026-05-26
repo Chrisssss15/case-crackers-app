@@ -15,14 +15,22 @@ import {
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
-export default function GuessAnswerScreen({ setCurrentScreen }) {
+export default function GuessAnswerScreen({ setCurrentScreen, team }) {
   const [answer, setAnswer] = useState("");
 
-  const team = {
-    name: "Team 1",
-    avatar: "🐸",
-    lives: 2,
-  };
+  // const team = {
+  //   name: "Team 1",
+  //   avatar: "🐸",
+  //   lives: 2,
+  // };
+
+
+  const currentTeam = team || {
+  name: "Team 1",
+  avatar: "🐸",
+  lives: 3,
+};
+
 
   const goBack = () => {
     setCurrentScreen("gameScreen");
@@ -62,21 +70,35 @@ export default function GuessAnswerScreen({ setCurrentScreen }) {
 
           <View style={styles.teamInfo}>
             <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>{team.avatar}</Text>
+              {/* <Text style={styles.avatarText}>{team.avatar}</Text> */}
+              <Text style={styles.avatarText}>{currentTeam.avatar}</Text>
             </View>
 
-            <Text style={styles.teamName}>{team.name}</Text>
+            {/* <Text style={styles.teamName}>{team.name}</Text> */}
+            <Text style={styles.teamName}>{currentTeam.name}</Text>
           </View>
 
           <View style={styles.heartsRow}>
-            <Heart filled={team.lives >= 1} />
+            {/* <Heart filled={team.lives >= 1} />
             <Heart filled={team.lives >= 2} />
-            <Heart filled={team.lives >= 3} />
+            <Heart filled={team.lives >= 3} /> */}
+
+            <Heart filled={currentTeam.lives >= 1} />
+            <Heart filled={currentTeam.lives >= 2} />
+            <Heart filled={currentTeam.lives >= 3} />
           </View>
 
           <Text style={styles.questionText}>
             Beschrijf wat er is gebeurd{"\n"}en hoe het is gebeurd
           </Text>
+
+          {/* <TextInput
+            style={styles.input}
+            placeholder="Typ de oplossing"
+            placeholderTextColor="#BDBDBD"
+            value={answer}
+            onChangeText={setAnswer}
+          /> */}
 
           <TextInput
             style={styles.input}
@@ -84,6 +106,8 @@ export default function GuessAnswerScreen({ setCurrentScreen }) {
             placeholderTextColor="#BDBDBD"
             value={answer}
             onChangeText={setAnswer}
+            multiline={true}
+            textAlignVertical="top"
           />
 
           <TouchableOpacity
@@ -182,20 +206,20 @@ const styles = StyleSheet.create({
     lineHeight: 40,
   },
 
-  heartsRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 26,
-    marginBottom: 76,
-  },
+heartsRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 18,
+  marginBottom: 28,
+},
 
-  heart: {
-    fontFamily: "LondrinaSolid",
-    color: "#FF1308",
-    fontSize: 72,
-    lineHeight: 76,
-  },
+heart: {
+  fontFamily: "LondrinaSolid",
+  color: "#FF1308",
+  fontSize: 56,
+  lineHeight: 60,
+},
 
   emptyHeart: {
     color: "#74004E",
@@ -210,17 +234,31 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
-  input: {
-    width: "100%",
-    height: 64,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 17,
-    paddingHorizontal: 24,
-    fontFamily: "LondrinaSolid",
-    fontSize: 21,
-    color: "#222222",
-    marginBottom: 20,
-  },
+  // input: {
+  //   width: "100%",
+  //   height: 64,
+  //   backgroundColor: "#FFFFFF",
+  //   borderRadius: 17,
+  //   paddingHorizontal: 24,
+  //   fontFamily: "LondrinaSolid",
+  //   fontSize: 21,
+  //   color: "#222222",
+  //   marginBottom: 20,
+  // },
+
+input: {
+  width: "100%",
+  height: 180,
+  backgroundColor: "#FFFFFF",
+  borderRadius: 17,
+  paddingHorizontal: 24,
+  paddingTop: 18,
+  paddingBottom: 18,
+  fontFamily: "LondrinaSolid",
+  fontSize: 21,
+  color: "#222222",
+  marginBottom: 20,
+},
 
   sendButton: {
     width: "100%",
