@@ -89,15 +89,26 @@ export default function App() {
     );
   }
 
+  // if (currentScreen === "guessAnswerScreen") {
+  //   return (
+  //     <GuessAnswerScreen
+  //       setCurrentScreen={setCurrentScreen}
+  //       team={selectedTeam}
+  //       updateTeamLives={updateTeamLives}
+  //     />
+  //   );
+  // }
+
   if (currentScreen === "guessAnswerScreen") {
-    return (
-      <GuessAnswerScreen
-        setCurrentScreen={setCurrentScreen}
-        team={selectedTeam}
-        updateTeamLives={updateTeamLives}
-      />
-    );
-  }
+  return (
+    <GuessAnswerScreen
+      setCurrentScreen={setCurrentScreen}
+      team={selectedTeam}
+      teams={gameTeams}
+      updateTeamLives={updateTeamLives}
+    />
+  );
+}
 
   if (currentScreen === "wrongAnswerScreen") {
     return (
@@ -115,6 +126,7 @@ export default function App() {
   if (currentScreen === "reflectionScreen") {
     return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
   }
+  
 
   return (
     <SafeAreaView style={styles.container}>
