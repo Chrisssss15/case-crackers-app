@@ -9,14 +9,27 @@ import {
   View,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
-
+import { resetGame } from "../services/api";
 import Background from "../assets/background.svg";
 
 export default function Homescreen({ setCurrentScreen }) {
-  const startGame = () => {
+  // const startGame = () => {
+  //   setCurrentScreen("teamsScreen");
+  //   console.log("Naar teams aanmaken scherm");
+  // };
+
+  const startGame = async () => {
+  try {
+    await resetGame();
+
+    console.log("Backend game gereset");
     setCurrentScreen("teamsScreen");
     console.log("Naar teams aanmaken scherm");
-  };
+  } catch (error) {
+    console.log("Fout bij resetten game:", error);
+    alert(error.message || "Kon het spel niet resetten.");
+  }
+};
 
   const openHowItWorks = () => {
     setCurrentScreen("howToPlayScreen");
