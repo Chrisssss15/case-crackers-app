@@ -40,12 +40,26 @@ export default function GameScreen({ setCurrentScreen, teams, setSelectedTeam })
     console.log("Terug naar case kiezen");
   };
 
+  // const guessAnswer = (team) => {
+  //   setSelectedTeam(team);
+  //   setCurrentScreen("guessAnswerScreen");
+  //   console.log(team.name + " gaat antwoord raden");
+  //   console.log("Team levens bij openen antwoordscherm:", team.lives);
+  // };
+
   const guessAnswer = (team) => {
-    setSelectedTeam(team);
-    setCurrentScreen("guessAnswerScreen");
-    console.log(team.name + " gaat antwoord raden");
-    console.log("Team levens bij openen antwoordscherm:", team.lives);
-  };
+  const lives = Number(team.lives ?? 3);
+
+  if (lives <= 0) {
+    alert(team.name + " heeft geen levens meer en kan niet meer raden.");
+    return;
+  }
+
+  setSelectedTeam(team);
+  setCurrentScreen("guessAnswerScreen");
+  console.log(team.name + " gaat antwoord raden");
+  console.log("Team levens bij openen antwoordscherm:", team.lives);
+};
 
   const openDigitalHint = () => {
     console.log("Digitale hint is nog op slot");
@@ -113,12 +127,27 @@ function TeamTurnBlock({ team, onGuess }) {
         <Heart filled={lives >= 3} />
       </View>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={[styles.guessButton, { backgroundColor: team.buttonColor }]}
         onPress={onGuess}
         activeOpacity={0.85}
       >
         <Text style={styles.guessButtonText}>Antwoord raden</Text>
+      </TouchableOpacity> */}
+
+      <TouchableOpacity
+        style={[
+          styles.guessButton,
+          { backgroundColor: team.buttonColor },
+          lives <= 0 && styles.disabledGuessButton,
+        ]}
+        onPress={onGuess}
+        activeOpacity={0.85}
+        disabled={lives <= 0}
+      >
+        <Text style={styles.guessButtonText}>
+          {lives <= 0 ? "Geen levens meer" : "Antwoord raden"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -270,5 +299,9 @@ const styles = StyleSheet.create({
     fontSize: 31,
     lineHeight: 38,
     textAlign: "center",
+  },
+
+  disabledGuessButton: {
+    opacity: 0.5,
   },
 });
