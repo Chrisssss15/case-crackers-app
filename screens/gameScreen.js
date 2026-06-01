@@ -11,6 +11,8 @@ import {
 
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
+import HeartIcon from "../assets/heart.svg";
+import EmptyHeartIcon from "../assets/empty-heart.svg";
 
 export default function GameScreen({ setCurrentScreen, teams, setSelectedTeam }) {
   const gameTeams =
@@ -153,12 +155,20 @@ function TeamTurnBlock({ team, onGuess }) {
   );
 }
 
+// function Heart({ filled }) {
+//   return (
+//     <Text style={[styles.heart, !filled && styles.emptyHeart]}>
+//       {filled ? "♥︎" : "♡"}
+//     </Text>
+//   );
+// }
+
 function Heart({ filled }) {
-  return (
-    <Text style={[styles.heart, !filled && styles.emptyHeart]}>
-      {filled ? "♥︎" : "♡"}
-    </Text>
-  );
+  if (filled) {
+    return <HeartIcon width={47} height={43} />;
+  }
+
+  return <EmptyHeartIcon width={47} height={43} />;
 }
 
 const styles = StyleSheet.create({
@@ -253,17 +263,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 18,
     marginBottom: 28,
-  },
-
-  heart: {
-    fontFamily: "LondrinaSolid",
-    color: "#FF1308",
-    fontSize: 56,
-    lineHeight: 60,
-  },
-
-  emptyHeart: {
-    color: "#74004E",
   },
 
   guessButton: {
