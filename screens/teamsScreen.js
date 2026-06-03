@@ -15,9 +15,8 @@ import {
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
-// export default function TeamsScreen({ setCurrentScreen }) {
 export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
-  const avatars = ["🐸", "🐻", "🐱", "🐷"];
+  const avatars = ["🐸", "🐻", "🐱", "🐷", "🦊"];
 
   const [teams, setTeams] = useState([
     {
@@ -95,40 +94,26 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     setTeams(newTeams);
   };
 
-  //   const goNext = () => {
-  //   const teamsForGame = teams.map((team, index) => ({
-  //     ...team,
-  //     name: team.name.trim() === "" ? `Team ${index + 1}` : team.name,
-  //     lives: 3,
-  //     buttonColor: index % 2 === 0 ? "#FD9B34" : "#F242DE",
-  //   }));
+  const goNext = () => {
+    const hasEmptyTeamName = teams.some((team) => team.name.trim() === "");
 
-  //   setGameTeams(teamsForGame);
-  //   setCurrentScreen("chooseCaseScreen");
+    if (hasEmptyTeamName) {
+      alert("Vul voor elk team een naam in.");
+      return;
+    }
 
-  //   console.log("Teams opgeslagen:", teamsForGame);
-  // };
+    const teamsForGame = teams.map((team, index) => ({
+      ...team,
+      name: team.name.trim(),
+      lives: 3,
+      buttonColor: index % 2 === 0 ? "#FD9B34" : "#F242DE",
+    }));
 
-const goNext = () => {
-  const hasEmptyTeamName = teams.some((team) => team.name.trim() === "");
+    setGameTeams(teamsForGame);
+    setCurrentScreen("chooseCaseScreen");
 
-  if (hasEmptyTeamName) {
-    alert("Vul voor elk team een naam in.");
-    return;
-  }
-
-  const teamsForGame = teams.map((team, index) => ({
-    ...team,
-    name: team.name.trim(),
-    lives: 3,
-    buttonColor: index % 2 === 0 ? "#FD9B34" : "#F242DE",
-  }));
-
-  setGameTeams(teamsForGame);
-  setCurrentScreen("chooseCaseScreen");
-
-  console.log("Teams opgeslagen:", teamsForGame);
-};
+    console.log("Teams opgeslagen:", teamsForGame);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -244,10 +229,6 @@ function TeamBlock({
             )}
           </TouchableOpacity>
         ))}
-
-        <TouchableOpacity style={styles.plusAvatar} activeOpacity={0.85}>
-          <Text style={styles.plusAvatarText}>＋</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -371,6 +352,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    flexWrap: "wrap",
   },
 
   avatarButton: {
@@ -409,24 +391,6 @@ const styles = StyleSheet.create({
     color: "#222222",
     fontSize: 18,
     lineHeight: 22,
-  },
-
-  plusAvatar: {
-    width: 62,
-    height: 62,
-    borderRadius: 31,
-    borderWidth: 3,
-    borderColor: "#FFFFFF",
-    backgroundColor: "rgba(255,255,255,0.45)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  plusAvatarText: {
-    fontFamily: "LondrinaSolid",
-    color: "#FFFFFF",
-    fontSize: 42,
-    lineHeight: 46,
   },
 
   addButton: {
