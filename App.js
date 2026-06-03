@@ -58,9 +58,9 @@ export default function App() {
     return <Homescreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  if (currentScreen === "uploadCaseScreen") {
-    return <UploadCaseScreen />;
-  }
+if (currentScreen === "uploadCaseScreen") {
+  return <UploadCaseScreen setCurrentScreen={setCurrentScreen} />;
+}
 
   if (currentScreen === "howToPlayScreen") {
     return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
