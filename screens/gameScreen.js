@@ -64,7 +64,8 @@ export default function GameScreen({ setCurrentScreen, teams, setSelectedTeam })
 };
 
   const openDigitalHint = () => {
-    console.log("Digitale hint is nog op slot");
+    alert("Deze functie is later beschikbaar.");
+    console.log("Digitale hint functie is later beschikbaar");
   };
 
   return (
