@@ -15,12 +15,17 @@ import Svg, { Path } from "react-native-svg";
 
 import Background from "../assets/background.svg";
 
-export default function CaseSubmit() {
+export default function CaseSubmit({ setCurrentScreen }) {
   const [caseText, setCaseText] = useState("");
 
-  const sendCase = () => {
-    console.log("Case ingezonden:", caseText);
-  };
+const sendCase = () => {
+  console.log("Case ingezonden:", caseText);
+};
+
+const goBack = () => {
+  setCurrentScreen("homescreen");
+  console.log("Terug naar de homescreen");
+};
 
   return (
     <KeyboardAvoidingView
@@ -34,7 +39,19 @@ export default function CaseSubmit() {
       >
         <Background style={styles.background} />
 
+
+        {/* <View style={styles.content}>
+          <CaseCrackersTextLogo style={styles.logo} /> */}
+
         <View style={styles.content}>
+          <TouchableOpacity
+            onPress={goBack}
+            style={styles.backButton}
+            activeOpacity={0.8}
+          >
+            <Text style={styles.backButtonText}>← Terug</Text>
+          </TouchableOpacity>
+
           <CaseCrackersTextLogo style={styles.logo} />
 
           <Text style={styles.title}>Case inzenden</Text>
@@ -47,7 +64,7 @@ export default function CaseSubmit() {
 
           <TextInput
             style={styles.input}
-            placeholder="Typ jouw voorstel voor een case"
+            placeholder="Typ hier jouw case..."
             placeholderTextColor="#BBBBBB"
             value={caseText}
             onChangeText={setCaseText}
@@ -147,10 +164,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     paddingHorizontal: 37,
-    paddingTop: 90,
+    paddingTop: 45,
     paddingBottom: 70,
     minHeight: 874,
   },
+
+  backButton: {
+  alignSelf: "flex-start",
+  paddingVertical: 8,
+  paddingHorizontal: 12,
+  marginBottom: 18,
+  backgroundColor: "rgba(255,255,255,0.14)",
+  borderRadius: 14,
+},
+
+backButtonText: {
+  fontFamily: "LondrinaSolid",
+  color: "#FFFFFF",
+  fontSize: 20,
+  lineHeight: 24,
+},
 
   logo: {
     width: 219,
@@ -177,20 +210,20 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
 
-  input: {
-    width: "100%",
-    minHeight: 62,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 17,
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 12,
-    fontFamily: "LondrinaSolid",
-    fontSize: 17,
-    lineHeight: 22,
-    color: "#333333",
-    marginBottom: 18,
-  },
+input: {
+  width: "100%",
+  minHeight: 190,
+  backgroundColor: "#FFFFFF",
+  borderRadius: 17,
+  paddingHorizontal: 20,
+  paddingTop: 18,
+  paddingBottom: 18,
+  fontFamily: "LondrinaSolid",
+  fontSize: 20,
+  lineHeight: 24,
+  color: "#333333",
+  marginBottom: 22,
+},
 
   sendButton: {
     width: "100%",
