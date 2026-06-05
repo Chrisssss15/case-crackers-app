@@ -13,37 +13,39 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
+// Importeren van achtergrond
 import Background from "../assets/background.svg";
 
+// Scherm waar een speler zelf een case kan inzenden
 export default function CaseSubmit({ setCurrentScreen }) {
-  const [caseText, setCaseText] = useState("");
+  const [caseText, setCaseText] = useState(""); // Houdt de ingevulde case tekst bij
 
-const sendCase = () => {
-  console.log("Case ingezonden:", caseText);
-};
+  // Functie om de case te verzenden
+  const sendCase = () => {
+    console.log("Case ingezonden:", caseText);
+  };
 
-const goBack = () => {
-  setCurrentScreen("homescreen");
-  console.log("Terug naar de homescreen");
-};
+  // Functie om terug te gaan naar het homescreen
+  const goBack = () => {
+    setCurrentScreen("homescreen");
+    console.log("Terug naar de homescreen");
+  };
 
   return (
     <KeyboardAvoidingView
       style={styles.page}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "height"} // Zorgt dat het toetsenbord het scherm niet overlapt
     >
       <ScrollView
         contentContainerStyle={styles.pageContent}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        {/* Achtergrond van het scherm */}
         <Background style={styles.background} />
 
-
-        {/* <View style={styles.content}>
-          <CaseCrackersTextLogo style={styles.logo} /> */}
-
         <View style={styles.content}>
+          {/* Terug knop */}
           <TouchableOpacity
             onPress={goBack}
             style={styles.backButton}
@@ -52,16 +54,20 @@ const goBack = () => {
             <Text style={styles.backButtonText}>← Terug</Text>
           </TouchableOpacity>
 
+          {/* Logo bovenaan het scherm */}
           <CaseCrackersTextLogo style={styles.logo} />
 
+          {/* Titel */}
           <Text style={styles.title}>Case inzenden</Text>
 
+          {/* Uitleg tekst */}
           <Text style={styles.description}>
             Heb jij ooit een digitaal incident meegemaakt en wil je daar een
             case van maken voor het spel? Stuur jouw verhaal naar ons op, dan
             kijken wij of we het kunnen verwerken in een nieuwe case!
           </Text>
 
+          {/* Invoerveld voor de case */}
           <TextInput
             style={styles.input}
             placeholder="Typ hier jouw case..."
@@ -72,6 +78,7 @@ const goBack = () => {
             textAlignVertical="top"
           />
 
+          {/* Knop om de case te verzenden */}
           <TouchableOpacity
             style={styles.sendButton}
             onPress={sendCase}
@@ -85,6 +92,7 @@ const goBack = () => {
   );
 }
 
+// Component voor het Case Crackers logo
 function CaseCrackersTextLogo({ style }) {
   return (
     <View style={style}>
@@ -142,6 +150,7 @@ function CaseCrackersTextLogo({ style }) {
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,
@@ -170,20 +179,20 @@ const styles = StyleSheet.create({
   },
 
   backButton: {
-  alignSelf: "flex-start",
-  paddingVertical: 8,
-  paddingHorizontal: 12,
-  marginBottom: 18,
-  backgroundColor: "rgba(255,255,255,0.14)",
-  borderRadius: 14,
-},
+    alignSelf: "flex-start",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom: 18,
+    backgroundColor: "rgba(255,255,255,0.14)",
+    borderRadius: 14,
+  },
 
-backButtonText: {
-  fontFamily: "LondrinaSolid",
-  color: "#FFFFFF",
-  fontSize: 20,
-  lineHeight: 24,
-},
+  backButtonText: {
+    fontFamily: "LondrinaSolid",
+    color: "#FFFFFF",
+    fontSize: 20,
+    lineHeight: 24,
+  },
 
   logo: {
     width: 219,
@@ -210,20 +219,20 @@ backButtonText: {
     marginBottom: 18,
   },
 
-input: {
-  width: "100%",
-  minHeight: 190,
-  backgroundColor: "#FFFFFF",
-  borderRadius: 17,
-  paddingHorizontal: 20,
-  paddingTop: 18,
-  paddingBottom: 18,
-  fontFamily: "LondrinaSolid",
-  fontSize: 20,
-  lineHeight: 24,
-  color: "#333333",
-  marginBottom: 22,
-},
+  input: {
+    width: "100%",
+    minHeight: 190,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 17,
+    paddingHorizontal: 20,
+    paddingTop: 18,
+    paddingBottom: 18,
+    fontFamily: "LondrinaSolid",
+    fontSize: 20,
+    lineHeight: 24,
+    color: "#333333",
+    marginBottom: 22,
+  },
 
   sendButton: {
     width: "100%",

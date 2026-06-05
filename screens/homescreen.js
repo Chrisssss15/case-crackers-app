@@ -9,33 +9,35 @@ import {
   View,
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
+
+// Importeren van API en achtergrond
 import { resetGame } from "../services/api";
 import Background from "../assets/background.svg";
 
+// Homescreen van de app
 export default function Homescreen({ setCurrentScreen }) {
-  // const startGame = () => {
-  //   setCurrentScreen("teamsScreen");
-  //   console.log("Naar teams aanmaken scherm");
-  // };
 
+  // Functie om het spel te starten
   const startGame = async () => {
-  try {
-    await resetGame();
+    try {
+      await resetGame();
 
-    console.log("Backend game gereset");
-    setCurrentScreen("teamsScreen");
-    console.log("Naar teams aanmaken scherm");
-  } catch (error) {
-    console.log("Fout bij resetten game:", error);
-    alert(error.message || "Kon het spel niet resetten.");
-  }
-};
+      console.log("Backend game gereset");
+      setCurrentScreen("teamsScreen");
+      console.log("Naar teams aanmaken scherm");
+    } catch (error) {
+      console.log("Fout bij resetten game:", error);
+      alert(error.message || "Kon het spel niet resetten.");
+    }
+  };
 
+  // Functie om naar het uitleg scherm te gaan
   const openHowItWorks = () => {
     setCurrentScreen("howToPlayScreen");
     console.log("Hoe werkt het spel?");
   };
 
+  // Functie om naar het case inzenden scherm te gaan
   const submitCase = () => {
     setCurrentScreen("uploadCaseScreen");
     console.log("Case inzenden");
@@ -47,15 +49,19 @@ export default function Homescreen({ setCurrentScreen }) {
       contentContainerStyle={styles.pageContent}
       showsVerticalScrollIndicator={false}
     >
+      {/* Achtergrond van het scherm */}
       <Background style={styles.background} />
 
       <View style={styles.content}>
+        {/* Logo bovenaan het scherm */}
         <CaseCrackersTextLogo style={styles.logo} />
 
+        {/* Titel tekst */}
         <Text style={styles.title}>
           Weet jij het mysterie{"\n"}te ontrafelen...
         </Text>
 
+        {/* Knop om het spel te starten */}
         <TouchableOpacity
           style={styles.startButton}
           onPress={startGame}
@@ -64,6 +70,7 @@ export default function Homescreen({ setCurrentScreen }) {
           <Text style={styles.buttonText}>Start het spel</Text>
         </TouchableOpacity>
 
+        {/* Knoppen onderaan het scherm */}
         <View style={styles.bottomButtons}>
           <TouchableOpacity
             style={[styles.menuButton, styles.blueButton]}
@@ -86,6 +93,7 @@ export default function Homescreen({ setCurrentScreen }) {
   );
 }
 
+// Component voor het Case Crackers logo
 function CaseCrackersTextLogo({ style }) {
   return (
     <View style={style}>
@@ -143,6 +151,7 @@ function CaseCrackersTextLogo({ style }) {
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,

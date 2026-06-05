@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFonts } from "expo-font";
 
+// Importeren van alle schermen
 import Login from "./screens/login";
 import Homescreen from "./screens/homescreen";
 import UploadCaseScreen from "./screens/uploadCaseScreen";
@@ -17,18 +18,19 @@ import WrongAnswerScreen from "./screens/wrongAnswerScreen";
 import ReflectionScreen from "./screens/reflectionScreen";
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState("default");
-  const [gameTeams, setGameTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState(null);
+  const [currentScreen, setCurrentScreen] = useState("default"); // Startscherm is "default"
+  const [gameTeams, setGameTeams] = useState([]); // Teams worden hier opgeslagen
+  const [selectedTeam, setSelectedTeam] = useState(null); // Huidig geselecteerd team voor het raden van antwoorden
 
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded] = useFonts({ // Font inladen
     LondrinaSolid: require("./assets/fonts/font.ttf"),
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded) { // Wacht tot de lettertypen zijn geladen voordat je iets rendert
     return null;
   }
 
+  // Functie om levens bij te houden
   const updateTeamLives = (teamId, newLives) => {
     setGameTeams((oldTeams) =>
       oldTeams.map((team) =>
@@ -50,6 +52,8 @@ export default function App() {
     console.log("Team levens aangepast:", teamId, newLives);
   };
 
+
+  // De juiste scherm inladen op basis van de huidige van de huidige scherm
   if (currentScreen === "login") {
     return <Login setCurrentScreen={setCurrentScreen} />;
   }
@@ -58,25 +62,34 @@ export default function App() {
     return <Homescreen setCurrentScreen={setCurrentScreen} />;
   }
 
-if (currentScreen === "uploadCaseScreen") {
-  return <UploadCaseScreen setCurrentScreen={setCurrentScreen} />;
-}
+  if (currentScreen === "uploadCaseScreen") {
+    return <UploadCaseScreen setCurrentScreen={setCurrentScreen} />;
+  }
 
   if (currentScreen === "howToPlayScreen") {
     return <HowToPlayScreen setCurrentScreen={setCurrentScreen} />;
   }
 
-  if (currentScreen === "teamsScreen") {
-    return (
+    if (currentScreen === "goodAnswerScreen") {
+    return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "reflectionScreen") {
+    return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  if (currentScreen === "chooseCaseScreen") {
+    return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
+  }
+
+  // Teams scherm heeft extra props nodig om teams te beheren
+  if (currentScreen === "teamsScreen") { 
+    return ( // Hier worden de informatie doorgegeven naar de volgende scherm
       <TeamsScreen
         setCurrentScreen={setCurrentScreen}
         setGameTeams={setGameTeams}
       />
     );
-  }
-
-  if (currentScreen === "chooseCaseScreen") {
-    return <ChooseScreen setCurrentScreen={setCurrentScreen} />;
   }
 
   if (currentScreen === "gameScreen") {
@@ -88,16 +101,6 @@ if (currentScreen === "uploadCaseScreen") {
       />
     );
   }
-
-  // if (currentScreen === "guessAnswerScreen") {
-  //   return (
-  //     <GuessAnswerScreen
-  //       setCurrentScreen={setCurrentScreen}
-  //       team={selectedTeam}
-  //       updateTeamLives={updateTeamLives}
-  //     />
-  //   );
-  // }
 
   if (currentScreen === "guessAnswerScreen") {
   return (
@@ -119,13 +122,7 @@ if (currentScreen === "uploadCaseScreen") {
     );
   }
 
-  if (currentScreen === "goodAnswerScreen") {
-    return <GoodAnswerScreen setCurrentScreen={setCurrentScreen} />;
-  }
 
-  if (currentScreen === "reflectionScreen") {
-    return <ReflectionScreen setCurrentScreen={setCurrentScreen} />;
-  }
   
 
   return (
@@ -197,6 +194,7 @@ if (currentScreen === "uploadCaseScreen") {
   );
 }
 
+// styling
 const styles = StyleSheet.create({
   container: {
     flex: 1,

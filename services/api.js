@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // export const API_BASE_URL = "http://127.0.0.1:8000";
-export const API_BASE_URL = "http://192.168.2.20:8000";
+export const API_BASE_URL = "http://145.137.58.153:8000";
 
 export async function checkAnswer(answer) {
   const response = await fetch(`${API_BASE_URL}/check`, {

@@ -11,15 +11,19 @@ import {
   View,
 } from "react-native";
 
+// Importeren van achtergrond, logo en vraagteken slide
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 import VraagtekenSlide from "../assets/vraagteken-slide.svg";
 
+// Breedte van het scherm ophalen zodat elke slide schermvullend is
 const screenWidth = Dimensions.get("window").width;
 
+// Scherm waar spelers terugkijken op wat er is gebeurd
 export default function ReflectionScreen({ setCurrentScreen }) {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0); // Houdt bij welke slide actief is
 
+  // Alle slides voor de reflectie
   const slides = [
     {
       title: "De winactie",
@@ -49,16 +53,19 @@ export default function ReflectionScreen({ setCurrentScreen }) {
     },
   ];
 
+  // Functie om terug te gaan naar het goed gedaan scherm
   const goBack = () => {
     setCurrentScreen("goodAnswerScreen");
     console.log("Terug naar goed gedaan scherm");
   };
 
+  // Functie om terug te gaan naar het startscherm
   const goStart = () => {
     setCurrentScreen("homescreen");
     console.log("Terug naar start");
   };
 
+  // Functie om bij te houden op welke slide de speler zit
   const onScroll = (event) => {
     const slideNumber = Math.round(
       event.nativeEvent.contentOffset.x / screenWidth
@@ -70,6 +77,7 @@ export default function ReflectionScreen({ setCurrentScreen }) {
 
   return (
     <View style={styles.page}>
+      {/* Achtergrond van het scherm */}
       <Background
         width="100%"
         height="100%"
@@ -77,10 +85,12 @@ export default function ReflectionScreen({ setCurrentScreen }) {
         style={styles.background}
       />
 
+      {/* Terug knop */}
       <TouchableOpacity style={styles.backButton} onPress={goBack}>
         <Text style={styles.backText}>←</Text>
       </TouchableOpacity>
 
+      {/* Horizontale slides */}
       <ScrollView
         horizontal
         pagingEnabled
@@ -91,8 +101,10 @@ export default function ReflectionScreen({ setCurrentScreen }) {
         {slides.map((slide, index) => (
           <View style={styles.slide} key={index}>
             <View style={styles.topContent}>
+              {/* Logo bovenaan de slide */}
               <CaseCrackersLogo width={190} height={90} style={styles.logo} />
 
+              {/* Afbeelding of vraagteken tonen */}
               {slide.soort === "image" ? (
                 <Image
                   source={slide.image}
@@ -104,11 +116,13 @@ export default function ReflectionScreen({ setCurrentScreen }) {
               )}
             </View>
 
+            {/* Tekst van de slide */}
             <View style={styles.textContent}>
               <Text style={styles.title}>{slide.title}</Text>
               <Text style={styles.description}>{slide.text}</Text>
             </View>
 
+            {/* Alleen op de laatste slide komt de terug naar start knop */}
             {index === slides.length - 1 && (
               <TouchableOpacity
                 style={styles.startButton}
@@ -122,6 +136,7 @@ export default function ReflectionScreen({ setCurrentScreen }) {
         ))}
       </ScrollView>
 
+      {/* Bolletjes onderaan die laten zien op welke slide je bent */}
       <View style={styles.fixedDots}>
         {slides.map((item, dotIndex) => (
           <View
@@ -137,6 +152,7 @@ export default function ReflectionScreen({ setCurrentScreen }) {
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,

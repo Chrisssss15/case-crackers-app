@@ -12,25 +12,25 @@ import {
   View,
 } from "react-native";
 
+// Importeren van API, achtergrond, logo en hartjes
 import { checkAnswer } from "../services/api";
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 import HeartIcon from "../assets/heart.svg";
 import EmptyHeartIcon from "../assets/empty-heart.svg";
 
+// Scherm waar een team het antwoord op de case kan invullen
 export default function GuessAnswerScreen({
-  // setCurrentScreen,
-  // team,
-  // updateTeamLives,
   setCurrentScreen,
   team,
   teams,
   updateTeamLives,
 }) {
-  const [answer, setAnswer] = useState("");
-  const [lives, setLives] = useState(team?.lives ?? 3);
-  const [isSending, setIsSending] = useState(false);
+  const [answer, setAnswer] = useState(""); // Antwoord dat de speler invult
+  const [lives, setLives] = useState(team?.lives ?? 3); // Levens van het huidige team
+  const [isSending, setIsSending] = useState(false); // Checkt of het antwoord wordt verzonden
 
+  // Standaard team als er geen team wordt meegegeven
   const currentTeam = team || {
     id: 1,
     name: "Team 1",
@@ -38,15 +38,18 @@ export default function GuessAnswerScreen({
     lives: 3,
   };
 
+  // Zorgt dat de levens gelijk blijven met het huidige team
   useEffect(() => {
     setLives(currentTeam.lives ?? 3);
   }, [currentTeam.lives]);
 
+  // Functie om terug te gaan naar het game scherm
   const goBack = () => {
     setCurrentScreen("gameScreen");
     console.log("Terug naar game screen");
   };
 
+  // Functie om de levens aan te passen
   const updateLives = (newLives) => {
     setLives(newLives);
 
@@ -57,6 +60,7 @@ export default function GuessAnswerScreen({
     console.log("Levens aangepast naar:", newLives);
   };
 
+  // Functie om het antwoord naar de backend te sturen
   const sendAnswer = async () => {
     if (!answer.trim()) {
       alert("Vul eerst een antwoord in.");
@@ -87,12 +91,14 @@ export default function GuessAnswerScreen({
       console.log("Fout antwoord voor team:", currentTeam.name);
       console.log("Levens over voor frontend team:", newLives);
 
+      // Maakt een nieuwe lijst met teams waarbij dit team minder levens heeft
       const updatedTeams = (teams || []).map((teamItem) =>
         String(teamItem.id) === String(currentTeam.id)
           ? { ...teamItem, lives: newLives }
           : teamItem
       );
 
+      // Checkt of alle teams geen levens meer hebben
       const allTeamsHaveNoLives =
         updatedTeams.length > 0 &&
         updatedTeams.every((teamItem) => Number(teamItem.lives ?? 3) <= 0);
@@ -125,9 +131,11 @@ export default function GuessAnswerScreen({
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        {/* Achtergrond van het scherm */}
         <Background style={styles.background} />
 
         <View style={styles.content}>
+          {/* Terug knop */}
           <TouchableOpacity
             style={styles.backButton}
             onPress={goBack}
@@ -136,8 +144,10 @@ export default function GuessAnswerScreen({
             <Text style={styles.backButtonText}>←</Text>
           </TouchableOpacity>
 
+          {/* Logo bovenaan het scherm */}
           <CaseCrackersLogo style={styles.logo} />
 
+          {/* Team informatie */}
           <View style={styles.teamInfo}>
             <View style={styles.avatarCircle}>
               <Text style={styles.avatarText}>{currentTeam.avatar}</Text>
@@ -146,16 +156,19 @@ export default function GuessAnswerScreen({
             <Text style={styles.teamName}>{currentTeam.name}</Text>
           </View>
 
+          {/* Hartjes van het team */}
           <View style={styles.heartsRow}>
             <Heart filled={lives >= 1} />
             <Heart filled={lives >= 2} />
             <Heart filled={lives >= 3} />
           </View>
 
+          {/* Vraag/uitleg tekst */}
           <Text style={styles.questionText}>
             Beschrijf wat er is gebeurd{"\n"}en hoe het is gebeurd
           </Text>
 
+          {/* Invoerveld voor het antwoord */}
           <TextInput
             style={styles.input}
             placeholder="Typ de oplossing"
@@ -167,6 +180,7 @@ export default function GuessAnswerScreen({
             editable={!isSending}
           />
 
+          {/* Knop om het antwoord te verzenden */}
           <TouchableOpacity
             style={[styles.sendButton, isSending && styles.disabledButton]}
             onPress={sendAnswer}
@@ -183,14 +197,7 @@ export default function GuessAnswerScreen({
   );
 }
 
-// function Heart({ filled }) {
-//   return (
-//     <Text style={[styles.heart, !filled && styles.emptyHeart]}>
-//       {filled ? "♥︎" : "♡"}
-//     </Text>
-//   );
-// }
-
+// Component voor een gevuld of leeg hartje
 function Heart({ filled }) {
   if (filled) {
     return <HeartIcon width={47} height={43} />;
@@ -199,7 +206,7 @@ function Heart({ filled }) {
   return <EmptyHeartIcon width={47} height={43} />;
 }
 
-
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,

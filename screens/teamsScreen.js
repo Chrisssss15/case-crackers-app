@@ -12,12 +12,16 @@ import {
   View,
 } from "react-native";
 
+// Importeren van achtergrond en logo
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
+// Scherm waar spelers teams kunnen aanmaken
 export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
+  // Beschikbare avatars voor de teams
   const avatars = ["🐸", "🐻", "🐱", "🐷", "🦊"];
 
+  // Standaard teams die al klaarstaan
   const [teams, setTeams] = useState([
     {
       id: 1,
@@ -31,11 +35,13 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     },
   ]);
 
+  // Functie om terug te gaan naar het homescreen
   const goBack = () => {
     setCurrentScreen("homescreen");
     console.log("Terug naar homescreen");
   };
 
+  // Functie om een nieuw team toe te voegen
   const addTeam = () => {
     const newTeamNumber = teams.length + 1;
 
@@ -49,6 +55,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     console.log("Team toegevoegd:", newTeamNumber);
   };
 
+  // Functie om de naam van een team aan te passen
   const changeTeamName = (teamId, newName) => {
     const newTeams = teams.map((team) => {
       if (team.id === teamId) {
@@ -64,6 +71,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     setTeams(newTeams);
   };
 
+  // Functie om de avatar van een team aan te passen
   const changeTeamAvatar = (teamId, newAvatar) => {
     const newTeams = teams.map((team) => {
       if (team.id === teamId) {
@@ -79,6 +87,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     setTeams(newTeams);
   };
 
+  // Functie om de naam van een team leeg te maken
   const clearTeamName = (teamId) => {
     const newTeams = teams.map((team) => {
       if (team.id === teamId) {
@@ -94,6 +103,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
     setTeams(newTeams);
   };
 
+  // Functie om door te gaan naar het case kiezen scherm
   const goNext = () => {
     const hasEmptyTeamName = teams.some((team) => team.name.trim() === "");
 
@@ -102,6 +112,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
       return;
     }
 
+    // Teams klaarmaken voor het spel
     const teamsForGame = teams.map((team, index) => ({
       ...team,
       name: team.name.trim(),
@@ -125,9 +136,11 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        {/* Achtergrond van het scherm */}
         <Background style={styles.background} />
 
         <View style={styles.content}>
+          {/* Terug knop */}
           <TouchableOpacity
             style={styles.backButton}
             onPress={goBack}
@@ -136,10 +149,13 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
             <Text style={styles.backButtonText}>←</Text>
           </TouchableOpacity>
 
+          {/* Logo bovenaan het scherm */}
           <CaseCrackersLogo style={styles.logo} />
 
+          {/* Titel van het scherm */}
           <Text style={styles.title}>Maak je teams</Text>
 
+          {/* Alle teams tonen */}
           {teams.map((team, index) => (
             <TeamBlock
               key={team.id}
@@ -152,6 +168,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
             />
           ))}
 
+          {/* Knop om een extra team toe te voegen */}
           <TouchableOpacity
             style={styles.addButton}
             onPress={addTeam}
@@ -160,6 +177,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
             <Text style={styles.addButtonText}>＋ Team toevoegen</Text>
           </TouchableOpacity>
 
+          {/* Knop om verder te gaan */}
           <TouchableOpacity
             style={styles.nextButton}
             onPress={goNext}
@@ -173,6 +191,7 @@ export default function TeamsScreen({ setCurrentScreen, setGameTeams }) {
   );
 }
 
+// Component voor één team blok
 function TeamBlock({
   title,
   team,
@@ -187,6 +206,7 @@ function TeamBlock({
 
       <Text style={styles.label}>Naam</Text>
 
+      {/* Invoerveld voor teamnaam */}
       <View style={styles.inputBox}>
         <TextInput
           style={styles.input}
@@ -196,6 +216,7 @@ function TeamBlock({
           placeholderTextColor="#BDBDBD"
         />
 
+        {/* Knop om teamnaam leeg te maken */}
         {team.name !== "" && (
           <TouchableOpacity
             onPress={() => clearTeamName(team.id)}
@@ -209,6 +230,7 @@ function TeamBlock({
 
       <Text style={styles.label}>Kies een avatar</Text>
 
+      {/* Avatar keuzes */}
       <View style={styles.avatarRow}>
         {avatars.map((avatar) => (
           <TouchableOpacity
@@ -222,6 +244,7 @@ function TeamBlock({
           >
             <Text style={styles.avatarText}>{avatar}</Text>
 
+            {/* Vinkje bij gekozen avatar */}
             {team.avatar === avatar && (
               <View style={styles.checkCircle}>
                 <Text style={styles.checkText}>✓</Text>
@@ -234,6 +257,7 @@ function TeamBlock({
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,

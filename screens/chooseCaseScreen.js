@@ -10,18 +10,22 @@ import {
   View,
 } from "react-native";
 
+// Importeren van API en img
 import { getCases } from "../services/api";
 import Background from "../assets/background.svg";
 import CaseCrackersLogo from "../assets/case-crackers-text-logo.svg";
 
-export default function ChooseCaseScreen({ setCurrentScreen }) {
-  const [searchText, setSearchText] = useState("");
-  const [selectedCase, setSelectedCase] = useState(null);
-  const [cases, setCases] = useState([]);
-  const [loading, setLoading] = useState(true);
+// Scherm waar de speler een case kiest.
+// Cases worden opgehaald uit de backend en kunnen gefilterd worden op slachtoffernaam.
+export default function ChooseCaseScreen({ setCurrentScreen }) { 
+  const [searchText, setSearchText] = useState(""); // Tekst voor zoeken
+  const [selectedCase, setSelectedCase] = useState(null); // voor het bijhouden van de geselecteerde case
+  const [cases, setCases] = useState([]); // Alle cases worden hier opgeslagen
+  const [loading, setLoading] = useState(true); // Status voor het laden van cases
 
+  // useEffect om cases op te halen bij het laden van het scherm
   useEffect(() => {
-    async function loadCases() {
+    async function loadCases() { // Functie wordt pas uitgevoerd omdat we moeten wachten op de API response
       try {
         const backendCases = await getCases();
         setCases(backendCases);
@@ -36,11 +40,13 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
     loadCases();
   }, []);
 
+  // Functie voor terugknop 
   const goBack = () => {
     setCurrentScreen("teamsScreen");
     console.log("Terug naar teams screen");
   };
 
+  // Functie voor het openen van een case
   const openCase = (caseItem) => {
     setSelectedCase(caseItem);
     console.log("Gekozen case:", caseItem.victim);
@@ -48,6 +54,7 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
     console.log("Case beschrijving:", caseItem.description);
   };
 
+  // De speler mag pas doorgaan als er een case is gekozen
   const goNext = () => {
     if (!selectedCase) {
       alert("Kies eerst een case.");
@@ -57,10 +64,12 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
     setCurrentScreen("gameScreen");
   };
 
+  // Filteren van cases op basis van de zoektekst
   const filteredCases = cases.filter((item) =>
     item.victim.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  // wanneer het scherm nog aan het laden is, word er een laadscherm getoond
   if (loading) {
     return (
       <View style={styles.page}>
@@ -74,6 +83,7 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
     );
   }
 
+  
   return (
     <ScrollView
       style={styles.page}
@@ -138,6 +148,7 @@ export default function ChooseCaseScreen({ setCurrentScreen }) {
   );
 }
 
+// Component voor de case kaarten
 function CaseCard({ victim, onPress, isSelected }) {
   return (
     <TouchableOpacity
@@ -164,6 +175,7 @@ function CaseCard({ victim, onPress, isSelected }) {
   );
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,

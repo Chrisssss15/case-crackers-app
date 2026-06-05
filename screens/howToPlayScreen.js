@@ -11,9 +11,12 @@ import {
 } from "react-native";
 import Svg, { Path } from "react-native-svg";
 
+// Importeren van achtergrond
 import Background from "../assets/background.svg";
 
+// Scherm met de uitleg van het spel
 export default function HowToPlayScreen({ setCurrentScreen }) {
+  // Functie om terug te gaan naar het homescreen
   const goBack = () => {
     setCurrentScreen("homescreen");
   };
@@ -24,9 +27,11 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
       contentContainerStyle={styles.pageContent}
       showsVerticalScrollIndicator={false}
     >
+      {/* Achtergrond van het scherm */}
       <Background style={styles.background} />
 
       <View style={styles.content}>
+        {/* Terug knop */}
         <TouchableOpacity
           onPress={goBack}
           style={styles.backButton}
@@ -35,8 +40,10 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           <Text style={styles.backButtonText}>← Terug</Text>
         </TouchableOpacity>
 
+        {/* Logo bovenaan het scherm */}
         <CaseCrackersTextLogo style={styles.logo} />
 
+        {/* Introductie van de speluitleg */}
         <View style={styles.introSection}>
           <Text style={styles.introTitle}>Speluitleg</Text>
 
@@ -50,6 +57,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </View>
 
+        {/* Uitleg over het doel van het spel */}
         <Section title="Doel van het spel">
           <Text style={styles.text}>
             Het doel van het spel is om de zaak op te lossen. Je moet ontdekken:
@@ -63,6 +71,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over de onderdelen in de doos */}
         <Section title="Wat zit er in de doos?">
           <Bullet text="Spelbord" />
           <Bullet text="Pionnen" />
@@ -73,6 +82,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           <Bullet text="Slachtoffer-kaart" />
         </Section>
 
+        {/* Uitleg over hoe je speelt */}
         <Section title="Hoe speel je het spel?">
           <Text style={styles.text}>
             Teams spelen om de beurt. Als jouw team aan de beurt is:
@@ -83,6 +93,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           <Bullet text="Het volgende team is aan de beurt." />
         </Section>
 
+        {/* Voorbereiding van het spel */}
         <Section title="Voorbereiding">
           <Numbered number="1" text="Leg het spelbord op tafel." />
           <Numbered
@@ -107,6 +118,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           />
         </Section>
 
+        {/* Uitleg over overleggen met je team */}
         <Section title="Overleggen met je team">
           <Text style={styles.text}>
             Tijdens het spel mag je met je team overleggen. Wanneer gebruik je de
@@ -116,6 +128,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over de vakjes op het bord */}
         <Section title="Vakjes op het bord">
           <Text style={styles.subTitle}>Hint-vak</Text>
 
@@ -178,6 +191,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over hoe je de zaak oplost */}
         <Section title="Hoe los je de zaak op?">
           <Text style={styles.text}>
             Tijdens het spel verzamelen jullie hints. Probeer samen te bedenken
@@ -192,6 +206,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over wanneer je mag raden */}
         <Section title="Wanneer mag je raden?">
           <Text style={styles.text}>Je mag de zaak raden als:</Text>
 
@@ -205,6 +220,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over een fout antwoord */}
         <Section title="Wat gebeurt er bij een fout antwoord?">
           <Text style={styles.text}>Als je fout raadt:</Text>
 
@@ -218,6 +234,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
           </Text>
         </Section>
 
+        {/* Uitleg over winnen */}
         <Section title="Wanneer win je?">
           <Text style={styles.text}>
             Je wint als jouw team de zaak goed oplost. Dan leggen jullie uit wat
@@ -234,6 +251,7 @@ export default function HowToPlayScreen({ setCurrentScreen }) {
   );
 }
 
+// Component voor het Case Crackers logo
 function CaseCrackersTextLogo({ style }) {
   return (
     <View style={style}>
@@ -291,6 +309,7 @@ function CaseCrackersTextLogo({ style }) {
   );
 }
 
+// functie voor de secties van de uitleg, met een titel en inhoud
 function Section({ title, children }) {
   return (
     <View style={styles.section}>
@@ -300,6 +319,7 @@ function Section({ title, children }) {
   );
 }
 
+// bullet point bij de slide show
 function Bullet({ text }) {
   return (
     <View style={styles.bulletRow}>
@@ -309,6 +329,7 @@ function Bullet({ text }) {
   );
 }
 
+// Component voor genummerde stappen
 function Numbered({ number, text }) {
   return (
     <View style={styles.numberedRow}>
@@ -319,10 +340,12 @@ function Numbered({ number, text }) {
   );
 }
 
+// Component voor de afbeeldingen van bordvakjes
 function VakImage({ source }) {
   return <Image source={source} style={styles.vakImage} resizeMode="contain" />;
 }
 
+// Styling
 const styles = StyleSheet.create({
   page: {
     flex: 1,
