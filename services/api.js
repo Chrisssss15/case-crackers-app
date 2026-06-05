@@ -25,6 +25,7 @@ export async function checkAnswer(answer) {
   return data;
 }
 
+// Functie om de cases op te halen uit de backend
 export async function getCases() {
   const response = await fetch(`${API_BASE_URL}/mystery`);
 
@@ -48,6 +49,7 @@ export async function getCases() {
   ];
 }
 
+// functie om het spel te resetten
 export async function resetGame() {
   const response = await fetch(`${API_BASE_URL}/game/reset`, {
     method: "POST",
